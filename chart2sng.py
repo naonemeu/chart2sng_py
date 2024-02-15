@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 
 #Do not change this function, only write in the way it is.
 def parse_sync_track_section(f, res):
@@ -178,17 +179,6 @@ def write_sng_file(transformed_positions, file_path, song_info, duration):
         f.write('    </Data>\n')
         f.write('</Song>')
         
-import re
-        
-import re
-import os
-
-import re
-import os
-
-import re
-import os
-
 def parse_song_info(file_path):
     song_info = ['', '', '']  # Initialize list to store song information
 
