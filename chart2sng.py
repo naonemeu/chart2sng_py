@@ -1,4 +1,5 @@
 import sys
+import os
 
 #Do not change this function, only write in the way it is.
 def parse_sync_track_section(f, res):
@@ -47,6 +48,8 @@ def parse_notes_section(f):
             note_but, note_dur = map(int, parts[1].split("N")[1].split())
             if note_but <= 4:  # Ignore forced notes
                 button_notes.append((note_pos, note_but, note_dur))  # Append note position to list
+            if note_but == 7:  # Open Note
+                button_notes.append((note_pos, 0, note_dur))  # Append note position to list
         # Check if the line contains a special note
         elif "= S 2 " in line:
             parts = line.split("=")
@@ -138,30 +141,38 @@ def parse_chart_file(file_path):
 #Do not change this function, only write in the way it is.
 def write_sng_file(transformed_positions, file_path, song_info, duration):
     with open(file_path, 'w') as f:
-        # Write the header of the XML-like file
+        # Comments goes here
+        f.write('<!-- chart2sng - Naonemeu + ChatGPT-->\n')
+        f.write('<!-- Link: https://github.com/naonemeu/chart2sng_py -->\n')
+        f.write('<!-- Nota: Esse script ignora notas forçadas, e le Open Notes como se fosse a nota verde. -->\n')
+        f.write('<!-- Ajuste a linha final se necessario! Ha uma nota filler no final, pois o GF1 nao le a ultima nota -->\n')
         f.write('<?xml version="1.0"?>\n')
+        # Write the header of the XML-like file
         f.write('<Song>\n')
         f.write('    <Properties>\n')
         f.write('        <Version>0.1</Version>\n')
-        f.write('        <Title>Parser de metadados incompleto!</Title>\n')
-        f.write('        <Artist>Algum dia arrumo isso</Artist>\n')
-        f.write('        <Album>Se o ChatGPT não ficar mudando o codigo</Album>\n')
-        f.write('        <Year>Toda hora sem avisar!</Year>\n')
-        f.write('        <BeatsPerSecond>16.0</BeatsPerSecond>\n')
+        f.write(f'        <Title>{song_info[0]}</Title>\n')
+        f.write(f'        <Artist>{song_info[1]} - Charter: {song_info[2]}</Artist>\n')
+        f.write('        <Album>Vazio</Album>\n')
+        f.write('        <Year>Vazio</Year>\n')
+        f.write('        <BeatsPerSecond>24.0</BeatsPerSecond>\n')
         f.write('        <BeatOffset>0.0</BeatOffset>\n')
         f.write('        <HammerOnTime>0.25</HammerOnTime>\n')
         f.write('        <PullOffTime>0.25</PullOffTime>\n')
         f.write('        <Difficulty>EXPERT</Difficulty>\n')
         f.write('        <AllowableErrorTime>0.25</AllowableErrorTime>\n')
         f.write(f'        <Length>{duration}</Length>\n')
-        f.write('        <MusicFileName>musica.mp3</MusicFileName>\n')
-        f.write('        <MusicDirectoryHint>chart2sng_by_Naonemeu+ChatGPT</MusicDirectoryHint>\n')
+        f.write('        <MusicFileName>song.mp3</MusicFileName>\n')
+        f.write('        <MusicDirectoryHint>C:/</MusicDirectoryHint>\n')
         f.write('    </Properties>\n')
         f.write('\n    <Data>\n')
 
         # Write the transformed note positions
         for pos, but, dur, special, noteppq, bpm, tick in transformed_positions:
             f.write(f'        <Note time="{pos}" duration="{dur}" track="{but}" special="{special}" noteppq="{noteppq / 192}" bpm="{bpm}" tick="{tick}"/>\n')
+            
+        #Filler note
+        f.write(f'        <Note time="{duration+1000}" duration="0" track="0" special="0"/> <!-- Filler note -->\n ')
 
         # Write the footer of the XML-like file
         f.write('    </Data>\n')
@@ -169,34 +180,49 @@ def write_sng_file(transformed_positions, file_path, song_info, duration):
         
 import re
         
+import re
+import os
+
+import re
+import os
+
+import re
+import os
+
 def parse_song_info(file_path):
-    song_info = ['','','']  # Initialize list to store song information
-    
-    with open(file_path, 'r') as f:
+    song_info = ['', '', '']  # Initialize list to store song information
+
+    with open(file_path, 'r', encoding='utf-8-sig') as f:
         # Flag to indicate if inside [Song] section
         in_song_section = False
-        
+
         for line in f:
             line = line.strip()  # Remove leading/trailing whitespace
-            
+
             if line == "[Song]":
                 in_song_section = True
                 continue
             elif line == "}":
                 break
-            
+
             if in_song_section:
-                if "Name" in line:
-                    song_info[0] = re.search(r'"(.*?)"', line).group(1)  # Extract and store name using regex
-                elif "Artist" in line:  
-                    song_info[1] = line.split("=")[1].strip().strip('"')  # Extract and store artist
-                elif "Charter" in line:
-                    song_info[2] = line.split("=")[1].strip().strip('"')  # Extract and store charter
-    
+                # Extract and store information using regex
+                match = re.match(r'\s{0,2}(.*?)\s*=\s*"(.*?)"\s*', line)
+                if match:
+                    key = match.group(1)
+                    value = match.group(2)
+                    if key == "Name":
+                        song_info[0] = value
+                    elif key == "Artist":
+                        song_info[1] = value
+                    elif key == "Charter":
+                        song_info[2] = value
+
     return song_info
+
     
 def main():
-    print("chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT\n")
+    print("\n\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT\n")
 
     if len(sys.argv) != 2:
         print("Arraste um .chart ou digite pelo prompt de comando: chart2sng.py (arquivo).chart")
@@ -204,6 +230,9 @@ def main():
         return
 
     chart_file_path = sys.argv[1]
+    
+    # Get the directory path of the input file
+    input_dir = os.path.dirname(chart_file_path)
 
     resolution, bpm_markers, note_positions_expert, sp_notes_expert, note_positions_hard, note_positions_medium, note_positions_easy = parse_chart_file(chart_file_path)
 
@@ -223,10 +252,10 @@ def main():
     print("Song Information:", song_info)
     print("Duration of Expert track:", duration)
 
-    write_sng_file(transformed_positions_expert, "notes4.sng", song_info, duration)
-    write_sng_file(transformed_positions_hard, "notes3.sng", song_info, duration)
-    write_sng_file(transformed_positions_medium, "notes2.sng", song_info, duration)
-    write_sng_file(transformed_positions_easy, "notes1.sng", song_info, duration)
+    write_sng_file(transformed_positions_expert, os.path.join(input_dir, "notes4.sng"), song_info, duration)
+    write_sng_file(transformed_positions_hard, os.path.join(input_dir, "notes3.sng"), song_info, duration)
+    write_sng_file(transformed_positions_medium, os.path.join(input_dir, "notes2.sng"), song_info, duration)
+    write_sng_file(transformed_positions_easy, os.path.join(input_dir, "notes1.sng"), song_info, duration)
 
 if __name__ == "__main__":
     main()
