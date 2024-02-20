@@ -5,6 +5,7 @@ The only publicly existing\* chart -> sng is inside a executable that no longer 
 * Notes would drift away and desync if the chart had any BPM variations during the song
 * Would convert special notes alongside normal ones
 * Didn't convert Star Power
+* 
 This script addresses all those issues, while also automatically parsing song info data from the .chart file
 
 \*in such a case there's a private/internal one.
