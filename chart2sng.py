@@ -145,7 +145,7 @@ def write_sng_file(transformed_positions, file_path, song_info, duration):
         # Comments goes here
         f.write('<!-- chart2sng - Naonemeu + ChatGPT-->\n')
         f.write('<!-- Link: https://github.com/naonemeu/chart2sng_py -->\n')
-        f.write('<!-- Nota: Esse script ignora notas forçadas, e le Open Notes como se fosse a nota verde. -->\n')
+        f.write('<!-- Nota: Esse script ignora notas forcadas, e le Open Notes como se fosse a nota verde. -->\n')
         f.write('<!-- Ajuste a linha final se necessario! Ha uma nota filler no final, pois o GF1 nao le a ultima nota -->\n')
         f.write('<?xml version="1.0"?>\n')
         # Write the header of the XML-like file
