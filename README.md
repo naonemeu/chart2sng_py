@@ -14,6 +14,9 @@ This script addresses all those issues, while also automatically parsing song in
 ## Note
 Seems to work perfectly as long all BPM changes happens during a note. It may not work well with charts that have too many BPM variations in empty parts.
 
+## Note for Guitar Flash Custom creators
+Free to use, regardless of who you are. Just follow the license, I guess?
+
 # Português
 ## Sobre
 Um script de Python 3 que converte do formato .chart (Clone Hero) para .sng/xml (Freetar Editor). Não tem uma utilidade real, a não ser que por qualquer motivo você ainda jogue Guitar Flash...
@@ -29,3 +32,6 @@ Esse script corrige todos esses problemas, e também coloca os dados no arquivo 
 
 ## Nota
 Funciona perfeitamente, desde que todos os pontos de BPM sejam juntos com um nota. Para pontos de BPM sem nota no meio, pode dessincronizar a chart.
+
+## Note para criadores do Guitar Flash Custom.
+Uso livre, independente de quem você seja. Só siga a licenca, eu acho?
