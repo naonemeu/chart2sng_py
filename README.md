@@ -28,4 +28,4 @@ Esse script corrige todos esses problemas, e também coloca os dados no arquivo 
 \*Caso exista algum conversor privado que seja melhor.
 
 ## Nota
-Seems to work perfectly as long all BPM changes happens during a note. It may not work well with charts that have too many BPM variations in empty parts.
+Funciona perfeitamente, desde que todos os pontos de BPM sejam juntos com um nota. Para pontos de BPM sem nota no meio, pode dessincronizar a chart.
