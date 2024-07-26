@@ -212,7 +212,10 @@ def parse_song_info(file_path):
 
     
 def main():
-    print("\n\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT\n")
+    print("\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT\n")
+    print("\nIMPORTANTE!\n1. Verifique se nao ha caracteres EXOTICOS na chart. Apague-os antes de converter\n")
+    print("\n2. Abra o notes.sng para realizar ajustes finais, como remover a ultima nota, para o GF2 ou GF3\n")
+
 
     if len(sys.argv) != 2:
         print("Arraste um .chart ou digite pelo prompt de comando: chart2sng.py (arquivo).chart")
