@@ -15,7 +15,7 @@ This script addresses all those issues, while also automatically parsing song in
 Seems to work perfectly as long all BPM changes happens during a note. It may not work well with charts that have too many BPM variations in empty parts.
 
 ## Note for Guitar Flash Custom creators
-Free to use, regardless of who you are. Just follow the license, I guess?
+Free to use, regardless of who you are. Just follow the license, I guess? **And for converted charts from others, credit charters properly, please!**
 
 # Português
 ## Sobre
@@ -34,4 +34,4 @@ Esse script corrige todos esses problemas, e também coloca os dados no arquivo 
 Funciona perfeitamente, desde que todos os pontos de BPM sejam juntos com um nota. Para pontos de BPM sem nota no meio, pode dessincronizar a chart.
 
 ## Note para criadores do Guitar Flash Custom.
-Uso livre, independente de quem você seja. Só siga a licenca, eu acho?
+Uso livre, independente de quem você seja. Só siga a licenca, eu acho? **E para charts convertidos de outros, de os devidos créditos, por favor!**
