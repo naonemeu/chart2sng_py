@@ -114,7 +114,7 @@ def parse_chart_file(file_path):
     res = None  # Initialize resolution variable
 
     # Open the .chart file for reading
-    with open(file_path, 'r') as f:
+    with open(file_path, 'r', encoding="utf-8") as f:
         for line in f:
             line = line.strip()  # Remove leading/trailing whitespace
             
@@ -141,7 +141,7 @@ def parse_chart_file(file_path):
 
 #Do not change this function, only write in the way it is.
 def write_sng_file(transformed_positions, file_path, song_info, duration):
-    with open(file_path, 'w') as f:
+    with open(file_path, 'w', encoding="utf-8") as f:
         # Comments goes here
         f.write('<!-- chart2sng - Naonemeu + ChatGPT-->\n')
         f.write('<!-- Link: https://github.com/naonemeu/chart2sng_py -->\n')
@@ -213,8 +213,8 @@ def parse_song_info(file_path):
     
 def main():
     print("\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT")
-    print("\nIMPORTANTE!\n1. Verifique se nao ha caracteres EXOTICOS na chart. Apague-os antes de converter")
-    print("2. Abra o notes.sng para realizar ajustes finais, como remover a ultima nota, para o GF2 ou GF3\n")
+    print("\nIMPORTANTE!\nAbra o notes.sng para realizar ajustes finais, como remover a ultima nota, para o GF2 ou GF3")
+    print("\IMPORTANT!\nOpen the notes.sng file to do final adjustment, such as removing the last note if you play GF2 or GF3")
 
 
     if len(sys.argv) != 2:
