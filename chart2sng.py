@@ -212,9 +212,9 @@ def parse_song_info(file_path):
 
     
 def main():
-    print("\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT")
-    print("\nIMPORTANTE!\nAbra o notes.sng para realizar ajustes finais, como remover a ultima nota, para o GF2 ou GF3")
-    print("\IMPORTANT!\nOpen the notes.sng file to do final adjustment, such as removing the last note if you play GF2 or GF3")
+    print("\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT\n")
+    print("IMPORTANTE! Abra o notes.sng para realizar ajustes finais, como remover a ultima nota, para o GF2 ou GF3")
+    print("IMPORTANT! Open the notes.sng file to do final adjustment, such as removing the last note if you play GF2 or GF3")
 
 
     if len(sys.argv) != 2:
