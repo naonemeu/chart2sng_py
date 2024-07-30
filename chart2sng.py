@@ -2,7 +2,8 @@ import sys
 import os
 import re
 
-#Do not change this function, only write in the way it is.
+#Pega os valores de BPM e sua posição (em relação a RESOLUÇÃO)
+#Gets BPM values and poisition (relative to RESOLUTION) 
 def parse_sync_track_section(f, res):
     bpm_sync = []  # Initialize list to store BPM markers
 
@@ -26,8 +27,8 @@ def parse_sync_track_section(f, res):
 
     return bpm_sync
 
-
-#Do not change this function, only write in the way it is.
+#Pega as notas e mapeia no formato do freetar
+#Parses notes to freetar format
 def parse_notes_section(f):
     button_notes = []  # Initialize list to store note positions
     sp_notes = []   # Initialize list to store special notes
@@ -60,8 +61,8 @@ def parse_notes_section(f):
 
     return button_notes, sp_notes
 
-
-#Do not change this function, only write in the way it is.
+#Transforma a posição da nota pra posição (relativa a resolução) para tempo
+#Transforms note position (relative to resolution) to time
 def transform_note_positions(note_positions, bpm_markers, sp_notes):
     transformed_positions = []
     bpm_index = 0  # Initialize the index of the current BPM marker
@@ -103,7 +104,8 @@ def transform_note_positions(note_positions, bpm_markers, sp_notes):
             
     return transformed_positions
 
-#Do not make drastic changes in the way this function works.
+#Função geral para executar as outras de cima
+#General function to run functions made above
 def parse_chart_file(file_path):
     bpm_sync = []  # Initialize list to store BPM markers
     button_notes_expert = []  # Initialize list to store note positions for Expert difficulty
@@ -139,14 +141,18 @@ def parse_chart_file(file_path):
 
     return res, bpm_sync, button_notes_expert, sp_notes_expert, button_notes_hard, button_notes_medium, button_notes_easy
 
-#Do not change this function, only write in the way it is.
+#Final - gera a sng
+#Final - generates sng
 def write_sng_file(transformed_positions, file_path, song_info, duration):
     with open(file_path, 'w', encoding="utf-8") as f:
         # Comments goes here
-        f.write('<!-- chart2sng - Naonemeu + ChatGPT-->\n')
+        f.write('<!-- Chart convertida com "chart2sng" - Naonemeu + ChatGPT-->\n')
         f.write('<!-- Link: https://github.com/naonemeu/chart2sng_py -->\n')
         f.write('<!-- Nota: Esse script ignora notas forcadas, e le Open Notes como se fosse a nota verde. -->\n')
-        f.write('<!-- Ajuste a linha final se necessario! Ha uma nota filler no final, pois o GF1 nao le a ultima nota -->\n')
+        f.write('<!-- Ajuste a linha final se necessario! Ha uma nota filler no final, pois o GF1 nao le a ultima nota -->\n\n')
+        f.write('<!-- /------------------------------------------------------------------------------------/ -->\n')
+        f.write('<!-- /!!! Contribua para a comunidade: Mantenha os devidos creditos, e nada de plagio. !!!/ -->\n')
+        f.write('<!-- /------------------------------------------------------------------------------------/ -->\n\n')
         f.write('<?xml version="1.0"?>\n')
         # Write the header of the XML-like file
         f.write('<Song>\n')
@@ -168,11 +174,16 @@ def write_sng_file(transformed_positions, file_path, song_info, duration):
         f.write('    </Properties>\n')
         f.write('\n    <Data>\n')
 
-        # Write the transformed note positions
+        #Note with extra infos - commented, not used
+        #for pos, but, dur, special, noteppq, bpm, tick in transformed_positions:
+        #    f.write(f'        <Note time="{pos}" duration="{dur}" track="{but}" special="{special}" noteppq="{noteppq / 192}" bpm="{bpm}" tick="{tick}"/>\n')
+            
         for pos, but, dur, special, noteppq, bpm, tick in transformed_positions:
-            f.write(f'        <Note time="{pos}" duration="{dur}" track="{but}" special="{special}" noteppq="{noteppq / 192}" bpm="{bpm}" tick="{tick}"/>\n')
+            f.write(f'        <Note time="{pos}" duration="{dur}" track="{but}" special="{special}"/>\n')
             
         #Filler note
+        #REMOVA ESSA LINHA SE FOR JOGAR NO GF/2
+        #REMOVE THIS LINE IF YOU PLAY ON GF2/3
         f.write(f'        <Note time="{duration+1000}" duration="0" track="0" special="0"/> <!-- Filler note -->\n ')
 
         # Write the footer of the XML-like file
@@ -212,15 +223,15 @@ def parse_song_info(file_path):
 
     
 def main():
-    print("\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT\n")
-    print("IMPORTANTE! Abra o notes.sng para realizar ajustes finais, como remover a ultima nota, para o GF2 ou GF3")
-    print("IMPORTANT! Open the notes.sng file to do final adjustment, such as removing the last note if you play GF2 or GF3")
-
-
+    print("\n...chart2sng (Freetar) 1.0 - Naonemeu + ChatGPT\n")
+    
     if len(sys.argv) != 2:
         print("Arraste um .chart ou digite pelo prompt de comando: chart2sng.py (arquivo).chart")
         input()
         return
+    
+    print("IMPORTANTE! Abra o notes.sng para realizar ajustes finais, como remover a ultima nota, para o GF2 ou GF3")
+    print("IMPORTANT! Open the notes.sng file to do final adjustment, such as removing the last note if you play GF2 or GF3")
 
     chart_file_path = sys.argv[1]
     
@@ -242,7 +253,7 @@ def main():
         last_note_pos_expert, _, last_note_dur_expert, _, _, _, _ = transformed_positions_expert[-1]
         duration = int(last_note_pos_expert + last_note_dur_expert + 3)
 
-    print("Song Information:", song_info)
+    print("\nSong Information:", song_info)
     print("Duration of Expert track:", duration)
 
     write_sng_file(transformed_positions_expert, os.path.join(input_dir, "notes4.sng"), song_info, duration)
