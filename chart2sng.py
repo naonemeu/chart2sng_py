@@ -146,13 +146,10 @@ def parse_chart_file(file_path):
 def write_sng_file(transformed_positions, file_path, song_info, duration):
     with open(file_path, 'w', encoding="utf-8") as f:
         # Comments goes here
-        f.write('<!-- Chart convertida com "chart2sng" - Naonemeu + ChatGPT-->\n')
-        f.write('<!-- Link: https://github.com/naonemeu/chart2sng_py -->\n')
+        f.write('<!-- Chart convertida com chart2sng por Naonemeu com ChatGPT-->\n\n')
         f.write('<!-- Nota: Esse script ignora notas forcadas, e le Open Notes como se fosse a nota verde. -->\n')
-        f.write('<!-- Ajuste a linha final se necessario! Ha uma nota filler no final, pois o GF1 nao le a ultima nota -->\n\n')
-        f.write('<!-- /------------------------------------------------------------------------------------/ -->\n')
-        f.write('<!-- /!!! Contribua para a comunidade: Mantenha os devidos creditos, e nada de plagio. !!!/ -->\n')
-        f.write('<!-- /------------------------------------------------------------------------------------/ -->\n\n')
+        f.write('<!-- Ajuste a linha final se necessario. Ha uma nota filler no final, pois o GF1 nao le a ultima nota -->\n\n')
+        f.write('<!-- Contribua para a comunidade: Se a chart foi convertida, mantenha os devidos creditos. -->\n')
         f.write('<?xml version="1.0"?>\n')
         # Write the header of the XML-like file
         f.write('<Song>\n')
