@@ -86,7 +86,7 @@ def transform_note_positions(note_positions, bpm_markers, sp_notes):
         # Check if the note position is under the special line
         note_is_sp = 0
         for sp_pos, sp_dur in sp_notes:
-            if sp_pos <= pos <= sp_pos + sp_dur:
+            if sp_pos <= pos < sp_pos + sp_dur:
                 note_is_sp = 1  # Set note_is_sp to 1 if under special line
                 break
         
@@ -153,7 +153,7 @@ def write_sng_file(transformed_positions, file_path, song_info, duration):
         f.write('\n<!-- Chart convertida com chart2sng por Naonemeu com ChatGPT-->\n')
         f.write('<!-- Nota: Esse script ignora notas forcadas, e le Open Notes como se fosse a nota verde. -->\n')
         f.write('<!-- Ajuste a linha final se necessario. Ha uma nota filler no final, pois o GF1 nao le a ultima nota -->\n')
-        f.write('<!-- Contribua para a comunidade: Se a chart foi convertida, mantenha os devidos creditos. -->\n')
+        f.write('<!-- Contribua para a comunidade: Se a chart foi convertida, mantenha os devidos creditos. -->\n\n')
         
         f.write('<Song>\n')
         f.write('    <Properties>\n')
