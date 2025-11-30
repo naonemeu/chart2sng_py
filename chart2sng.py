@@ -156,7 +156,7 @@ def write_sng_file(transformed_positions, file_path, song_info, duration,gf1fix)
         f.write(f'        <Artist>{song_info[1]} - Charter: {song_info[2]}</Artist>\n')
         f.write('        <Album>Vazio</Album>\n')
         f.write('        <Year>2008</Year>\n')
-        f.write('        <BeatsPerSecond>24.0</BeatsPerSecond>\n')
+        f.write('        <BeatsPerSecond>1024.0</BeatsPerSecond>\n')
         f.write('        <BeatOffset>0.0</BeatOffset>\n')
         f.write('        <HammerOnTime>0.25</HammerOnTime>\n')
         f.write('        <PullOffTime>0.25</PullOffTime>\n')
@@ -220,7 +220,11 @@ def parse_song_info(file_path):
                         song_info[1] = value
                     elif key == "Charter":
                         song_info[2] = value
-
+            
+            if song_info[0] == "":
+                song_info[0] = "Coloca o nome da musica!"
+                song_info[1] = "O gf3 nao gosta de info vazia"
+                
     return song_info
     
     
@@ -624,7 +628,7 @@ def fixnotetimes(input_dir):
                     original_time = float(original_time_str)
                     
                     # 1. Apply the fixing calculation: time = int(time * 24) / 24
-                    new_time_val_float = int(original_time * 24) / 24.0
+                    new_time_val_float = int(original_time * 1024) / 1024.0
                     
                     # Format the new time value as a string, ensuring enough precision 
                     # for the snap to 1/24th (e.g., 3 decimal places for 0.041666...).
@@ -691,6 +695,11 @@ def fixnotetimes(input_dir):
 
 
 def main():
+    
+    #configs
+    gf1fix = False
+    bps = "24"
+        
     print("\n\n...chart2sng (Freetar) 0.1 - Naonemeu + ChatGPT\n")
 
     if len(sys.argv) != 2:
@@ -720,8 +729,6 @@ def main():
 
     print("Song Information:", song_info)
     print("Duration of Expert track:", duration)
-    
-    gf1fix = False
 
     write_sng_file(transformed_positions_expert, os.path.join(input_dir, "notes4.sng"), song_info, duration,gf1fix)
     write_sng_file(transformed_positions_hard, os.path.join(input_dir, "notes3.sng"), song_info, duration,gf1fix)
